@@ -5,6 +5,8 @@
 //  Created by Luis Finke on 5/18/25.
 //
 
+import Foundation
+
 extension String? {
 	public var isNullOrWhiteSpace: Bool {
 		guard let self = self else {
@@ -44,6 +46,14 @@ extension String {
 			}
 		} while endIndex != self.startIndex
 		return self[..<endIndex]
+	}
+	
+	private static let jsonDecoder = JSONDecoder()
+	
+	@available(macOS 13.0, *)
+	public func unescaped() throws -> String {
+		let data = Data("\"\(LFUtils.escapingUnescaped(char:"\"", in:self))\"".utf8)
+		return try Self.jsonDecoder.decode(String.self, from:data)
 	}
 }
 

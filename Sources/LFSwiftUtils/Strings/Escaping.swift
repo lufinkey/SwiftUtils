@@ -5,11 +5,12 @@
 //  Created by Luis Finke on 5/18/25.
 //
 
+import Foundation
 import RegexBuilder
 
-extension String {
+extension LFUtils {
 	@available(macOS 13.0, *)
-	public func escapingUnescaped(char: Character) -> Self {
+	public static func escapingUnescaped(char: Character, in string: String) -> String {
 		// (?:^|(?:[^\\"]+))(?:\\\\)*(")
 		let regex = Regex {
 			// non-capturing group: ^ or [^\\char]+
@@ -28,11 +29,11 @@ extension String {
 				char
 			}
 		}
-		return self.escapingGroup1(in: regex)
+		return self.escapingGroup1(from: regex, in:string)
 	}
 	
 	@available(macOS 13.0, *)
-	public func escapingUnescaped(char: CharacterClass) -> Self {
+	public static func escapingUnescaped(char: CharacterClass, in string: String) -> String {
 		// (?:^|(?:[^\\"]+))(?:\\\\)*(")
 		let regex = Regex {
 			// non-capturing group: ^ or [^\\char]+
@@ -51,30 +52,29 @@ extension String {
 				char
 			}
 		}
-		return self.escapingGroup1(in: regex)
+		return self.escapingGroup1(from: regex, in:string)
 	}
 	
 	@available(macOS 13.0, *)
-	private func escapingGroup1(in regex: Regex<(Substring, Substring)>) -> Self {
-		// create new string
+	private static func escapingGroup1(from regex: Regex<(Substring, Substring)>, in string: String) -> String {
 		var newStr = ""
-		var index = self.startIndex
-		while index != self.endIndex {
-			if let match = self[index...].firstMatch(of: regex) {
-				newStr += "\(self[index..<match.1.startIndex])\\\(self[match.1.startIndex..<match.range.upperBound])"
+		var index = string.startIndex
+		while index != string.endIndex {
+			if let match = string[index...].firstMatch(of: regex) {
+				newStr += "\(string[index..<match.1.startIndex])\\\(string[match.1.startIndex..<match.range.upperBound])"
 				index = match.range.upperBound
 			} else {
-				if index == self.startIndex {
-					return self
+				if index == string.startIndex {
+					return string
 				}
-				newStr += self[index...]
+				newStr += string[index...]
 				return newStr
 			}
 		}
-		if index == self.startIndex {
-			return self
+		if index == string.startIndex {
+			return string
 		}
-		newStr += self[index...]
+		newStr += string[index...]
 		return newStr
 	}
 }
