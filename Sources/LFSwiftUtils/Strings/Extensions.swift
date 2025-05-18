@@ -47,14 +47,6 @@ extension String {
 		} while endIndex != self.startIndex
 		return self[..<endIndex]
 	}
-	
-	private static let jsonDecoder = JSONDecoder()
-	
-	@available(macOS 13.0, *)
-	public func unescaped() throws -> String {
-		let data = Data("\"\(LFUtils.escapingUnescaped(char:"\"", in:self))\"".utf8)
-		return try Self.jsonDecoder.decode(String.self, from:data)
-	}
 }
 
 extension Substring {

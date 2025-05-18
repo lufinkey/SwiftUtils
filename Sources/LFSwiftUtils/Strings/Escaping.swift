@@ -77,4 +77,12 @@ extension LFUtils {
 		newStr += string[index...]
 		return newStr
 	}
+	
+	private static let jsonDecoder = JSONDecoder()
+	
+	@available(macOS 13.0, *)
+	public static func unescaping(string: String) throws -> String {
+		let data = Data("\"\(LFUtils.escapingUnescaped(char:"\"", in:string))\"".utf8)
+		return try Self.jsonDecoder.decode(String.self, from:data)
+	}
 }
