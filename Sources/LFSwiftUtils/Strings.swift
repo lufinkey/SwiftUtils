@@ -6,7 +6,7 @@
 //
 
 extension String? {
-	var isNullOrWhiteSpace: Bool {
+	public var isNullOrWhiteSpace: Bool {
 		guard let self = self else {
 			return true
 		}
@@ -23,7 +23,7 @@ extension String? {
 }
 
 extension String {
-	var isEmptyOrWhiteSpace: Bool {
+	public var isEmptyOrWhiteSpace: Bool {
 		if self.isEmpty {
 			return true
 		}
@@ -35,7 +35,7 @@ extension String {
 		return true
 	}
 	
-	func trimmingSuffix(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
+	public func trimmingSuffix(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
 		var endIndex = self.endIndex
 		repeat {
 			let nextIndex = self.index(before: endIndex)
@@ -48,7 +48,7 @@ extension String {
 }
 
 extension Substring {
-	var isEmptyOrWhiteSpace: Bool {
+	public var isEmptyOrWhiteSpace: Bool {
 		if self.isEmpty {
 			return true
 		}
@@ -60,7 +60,7 @@ extension Substring {
 		return true
 	}
 	
-	func trimmingSuffix(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
+	public func trimmingSuffix(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
 		var endIndex = self.endIndex
 		repeat {
 			let nextIndex = self.index(before: endIndex)
