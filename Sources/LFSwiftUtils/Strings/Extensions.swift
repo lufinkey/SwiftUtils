@@ -8,7 +8,7 @@
 import Foundation
 
 extension String? {
-	public var isNullOrWhiteSpace: Bool {
+	public var isNilOrWhiteSpace: Bool {
 		guard let self = self else {
 			return true
 		}
@@ -23,7 +23,7 @@ extension String? {
 		return true
 	}
 	
-	public var isNullOrEmpty: Bool {
+	public var isNilOrEmpty: Bool {
 		guard let self = self else {
 			return true
 		}
@@ -62,10 +62,15 @@ extension String {
 	public func trimming(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
 		return try trimmingPrefix(while: predicate).trimmingSuffix(while: predicate)
 	}
+	
+	@available(macOS 13.0, *)
+	public var trimmed: Self.SubSequence {
+		return self.trimming(while: { $0.isWhitespace || $0.isNewline })
+	}
 }
 
 extension Substring? {
-	public var isNullOrWhiteSpace: Bool {
+	public var isNilOrWhiteSpace: Bool {
 		guard let self = self else {
 			return true
 		}
@@ -80,7 +85,7 @@ extension Substring? {
 		return true
 	}
 	
-	public var isNullOrEmpty: Bool {
+	public var isNilOrEmpty: Bool {
 		guard let self = self else {
 			return true
 		}
@@ -118,5 +123,10 @@ extension Substring {
 	@available(macOS 13.0, *)
 	public func trimming(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
 		return try trimmingPrefix(while: predicate).trimmingSuffix(while: predicate)
+	}
+	
+	@available(macOS 13.0, *)
+	public var trimmed: Self.SubSequence {
+		return self.trimming(while: { $0.isWhitespace || $0.isNewline })
 	}
 }
