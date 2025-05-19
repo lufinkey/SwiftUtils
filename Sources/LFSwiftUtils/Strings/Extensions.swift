@@ -47,6 +47,11 @@ extension String {
 		} while endIndex != self.startIndex
 		return self[..<endIndex]
 	}
+	
+	@available(macOS 13.0, *)
+	public func trimming(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
+		return try trimmingPrefix(while: predicate).trimmingSuffix(while: predicate)
+	}
 }
 
 extension Substring {
@@ -71,5 +76,10 @@ extension Substring {
 			}
 		} while endIndex != self.startIndex
 		return self[..<endIndex]
+	}
+	
+	@available(macOS 13.0, *)
+	public func trimming(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
+		return try trimmingPrefix(while: predicate).trimmingSuffix(while: predicate)
 	}
 }
