@@ -10,9 +10,9 @@ import RegexBuilder
 
 extension LFUtils {
 	@available(macOS 13.0, *)
-	public static func escapingUnescaped(char: Character, in string: String) -> String {
+	public static func unescapedCharacterRegex(for char: Character) -> Regex<(Substring, Substring)> {
 		// (?:^|(?:[^\\"]+))(?:\\\\)*(")
-		let regex = Regex {
+		return Regex {
 			// non-capturing group: ^ or [^\\char]+
 			ChoiceOf {
 				Anchor.startOfLine
@@ -29,18 +29,17 @@ extension LFUtils {
 				char
 			}
 		}
-		return self.escapingGroup1(from: regex, in:string)
 	}
 	
 	@available(macOS 13.0, *)
-	public static func escapingUnescaped(char: CharacterClass, in string: String) -> String {
+	public static func unescapedCharacterClassRegex(for charClass: CharacterClass) -> Regex<(Substring, Substring)> {
 		// (?:^|(?:[^\\"]+))(?:\\\\)*(")
-		let regex = Regex {
+		return Regex {
 			// non-capturing group: ^ or [^\\char]+
 			ChoiceOf {
 				Anchor.startOfLine
 				OneOrMore {
-					CharacterClass.anyOf("\\").union(char).inverted
+					CharacterClass.anyOf("\\").union(charClass).inverted
 				}
 			}
 			// then zero or more pairs of backslashes (escaped backslashes)
@@ -49,10 +48,21 @@ extension LFUtils {
 			}
 			// capture the dynamic character
 			Capture {
-				char
+				charClass
 			}
 		}
-		return self.escapingGroup1(from: regex, in:string)
+	}
+	
+	@available(macOS 13.0, *)
+	public static func escapingUnescaped(char: Character, in string: String) -> String {
+		let regex = unescapedCharacterRegex(for:char)
+		return self.escapingGroup1(from:regex, in:string)
+	}
+	
+	@available(macOS 13.0, *)
+	public static func escapingUnescaped(char: CharacterClass, in string: String) -> String {
+		let regex = unescapedCharacterClassRegex(for:char)
+		return self.escapingGroup1(from:regex, in:string)
 	}
 	
 	@available(macOS 13.0, *)
