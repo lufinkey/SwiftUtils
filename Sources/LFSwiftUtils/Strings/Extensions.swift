@@ -22,6 +22,16 @@ extension String? {
 		}
 		return true
 	}
+	
+	public var isNullOrEmpty: Bool {
+		guard let self = self else {
+			return true
+		}
+		if self.isEmpty {
+			return true
+		}
+		return false
+	}
 }
 
 extension String {
@@ -51,6 +61,33 @@ extension String {
 	@available(macOS 13.0, *)
 	public func trimming(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
 		return try trimmingPrefix(while: predicate).trimmingSuffix(while: predicate)
+	}
+}
+
+extension Substring? {
+	public var isNullOrWhiteSpace: Bool {
+		guard let self = self else {
+			return true
+		}
+		if self.isEmpty {
+			return true
+		}
+		for character in self {
+			if !character.isWhitespace && !character.isNewline {
+				return false
+			}
+		}
+		return true
+	}
+	
+	public var isNullOrEmpty: Bool {
+		guard let self = self else {
+			return true
+		}
+		if self.isEmpty {
+			return true
+		}
+		return false
 	}
 }
 
