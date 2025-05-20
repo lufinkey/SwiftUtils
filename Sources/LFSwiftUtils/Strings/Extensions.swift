@@ -65,6 +65,8 @@ extension String {
 			let nextIndex = self.index(before: endIndex)
 			if try predicate(self[nextIndex]) {
 				endIndex = nextIndex
+			} else {
+				break
 			}
 		} while endIndex != self.startIndex
 		return self[..<endIndex]
@@ -139,6 +141,8 @@ extension Substring {
 			let nextIndex = self.index(before: endIndex)
 			if try predicate(self[nextIndex]) {
 				endIndex = nextIndex
+			} else {
+				break
 			}
 		} while endIndex != self.startIndex
 		return self[..<endIndex]
