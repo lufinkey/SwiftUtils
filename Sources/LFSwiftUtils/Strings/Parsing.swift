@@ -42,7 +42,7 @@ extension LFUtils {
 	public static func anyLine(in string: Substring, where handler: AnyLineWhereHandler) rethrows -> Bool {
 		var startIndex = string.startIndex
 		while startIndex != string.endIndex {
-			let newLineMatch = string[startIndex...].firstMatch(of: /\r\n|\n|\r/)
+			let newLineMatch = string[startIndex...].firstMatch(of: /\R/)
 			let line = string[startIndex..<(newLineMatch?.startIndex ?? string.endIndex)]
 			if try handler(line,newLineMatch) {
 				return true
@@ -56,7 +56,7 @@ extension LFUtils {
 	public static func anyLine(in string: Substring, where handler: AnyLineWhereAsyncHandler) async rethrows -> Bool {
 		var startIndex = string.startIndex
 		while startIndex != string.endIndex {
-			let newLineMatch = string[startIndex...].firstMatch(of: /\r\n|\n|\r/)
+			let newLineMatch = string[startIndex...].firstMatch(of: /\R/)
 			let line = string[startIndex..<(newLineMatch?.startIndex ?? string.endIndex)]
 			if try await handler(line,newLineMatch) {
 				return true
@@ -70,7 +70,7 @@ extension LFUtils {
 	public static func forEachLine(in string: Substring, _ handler: ForEachLineHandler) rethrows {
 		var startIndex = string.startIndex
 		while startIndex != string.endIndex {
-			let newLineMatch = string[startIndex...].firstMatch(of: /\r\n|\n|\r/)
+			let newLineMatch = string[startIndex...].firstMatch(of: /\R/)
 			let line = string[startIndex..<(newLineMatch?.startIndex ?? string.endIndex)]
 			try handler(line,newLineMatch)
 			startIndex = newLineMatch?.endIndex ?? string.endIndex
@@ -81,7 +81,7 @@ extension LFUtils {
 	public static func forEachLine(in string: Substring, _ handler: ForEachLineAsyncHandler) async rethrows {
 		var startIndex = string.startIndex
 		while startIndex != string.endIndex {
-			let newLineMatch = string[startIndex...].firstMatch(of: /\r\n|\n|\r/)
+			let newLineMatch = string[startIndex...].firstMatch(of: /\R/)
 			let line = string[startIndex..<(newLineMatch?.startIndex ?? string.endIndex)]
 			try await handler(line,newLineMatch)
 			startIndex = newLineMatch?.endIndex ?? string.endIndex

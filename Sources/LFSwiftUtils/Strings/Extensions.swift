@@ -47,6 +47,18 @@ extension String {
 		return true
 	}
 	
+	@available(macOS 13.0, *)
+	public func trimmingPrefix(while predicate: (Self.Element) throws -> Bool, limit: Int) rethrows -> Self.SubSequence {
+		var count = 0
+		return try self.trimmingPrefix(while: { c in
+			if count >= limit {
+				return false
+			}
+			count += 1
+			return try predicate(c)
+		})
+	}
+	
 	public func trimmingSuffix(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
 		var endIndex = self.endIndex
 		repeat {
@@ -107,6 +119,18 @@ extension Substring {
 			}
 		}
 		return true
+	}
+	
+	@available(macOS 13.0, *)
+	public func trimmingPrefix(while predicate: (Self.Element) throws -> Bool, limit: Int) rethrows -> Self.SubSequence {
+		var count = 0
+		return try self.trimmingPrefix(while: { c in
+			if count >= limit {
+				return false
+			}
+			count += 1
+			return try predicate(c)
+		})
 	}
 	
 	public func trimmingSuffix(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
