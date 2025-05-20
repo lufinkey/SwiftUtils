@@ -61,14 +61,14 @@ extension String {
 	
 	public func trimmingSuffix(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
 		var endIndex = self.endIndex
-		repeat {
+		while endIndex != self.startIndex {
 			let nextIndex = self.index(before: endIndex)
 			if try predicate(self[nextIndex]) {
 				endIndex = nextIndex
 			} else {
 				break
 			}
-		} while endIndex != self.startIndex
+		}
 		return self[..<endIndex]
 	}
 	
@@ -137,14 +137,14 @@ extension Substring {
 	
 	public func trimmingSuffix(while predicate: (Self.Element) throws -> Bool) rethrows -> Self.SubSequence {
 		var endIndex = self.endIndex
-		repeat {
+		while endIndex != self.startIndex {
 			let nextIndex = self.index(before: endIndex)
 			if try predicate(self[nextIndex]) {
 				endIndex = nextIndex
 			} else {
 				break
 			}
-		} while endIndex != self.startIndex
+		}
 		return self[..<endIndex]
 	}
 	
